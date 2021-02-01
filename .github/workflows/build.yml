@@ -11,15 +11,36 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15]
-        cc: [""]
         include:
-        # gcc-10 on ubuntu-20.04
+        # ubuntu-18.04
+        - os: ubuntu-18.04
+          cc: ""
+          php: 7.1
+        # ubuntu-18.04 with php7.4
+        - os: ubuntu-18.04
+          cc: ""
+          php: 7.4
+        # ubuntu-20.04
+        - os: ubuntu-20.04
+          cc: ""
+          php: 7.4
+        # ubuntu-20.04 with gcc-10
         - os: ubuntu-20.04
           cc: CC=/usr/bin/gcc-10
+          php: 7.4
           setup: sudo apt-get install -y gcc-10
+        # macos-10.15
+        - os: macos-10.15
+          cc: ""
+          php: 7.4
     steps:
     - uses: actions/checkout@v2
+    - name: Setup older PHP supported by swig
+      uses: shivammathur/setup-php@v2
+      if: runner.os == 'macOs'
+      with:
+        php-version: ${{ matrix.php }}
+        tools: php-config
     - name: setup
       if: ${{ matrix.setup }}
       run: ${{ matrix.setup }}
@@ -32,7 +53,7 @@ jobs:
     - name: bootstrap
       run: ./bootstrap
     - name: configure
-      run: ${{ matrix.cc }} ./configure
+      run: ${{ matrix.cc }} ./configure --with-php=php${{ matrix.php }} --with-phpconfig=php-config${{ matrix.php }}
     - name: make
       run: make
     - name: check
@@ -70,6 +91,6 @@ jobs:
     - name: extract sources
       run: tar -x -f owfs-*.tar.gz --strip-components 1
     - name: configure
-      run: ./configure
+      run: ./configure --with-php=php7.4 --with-phpconfig=php-config7.4
     - name: make
       run: make

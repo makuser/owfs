@@ -662,6 +662,7 @@ if test "${ENABLE_OWPHP}" = "true" ; then
 	AC_SUBST(PHPINC)
 	AC_SUBST(PHPEXT)
 	AC_SUBST(PHPLIBDIR)
+	AC_SUBST(PHPVMAJOR)
 	if test -z "${PHP}" ; then
 		AC_MSG_WARN([Cannot find php binary. Install php or php5 package])
 		AC_MSG_WARN([OWPHP is disabled because php binary is not found])
@@ -685,7 +686,6 @@ if test "${ENABLE_OWPHP}" = "true" ; then
 fi
 AC_SUBST(PHP)
 AC_SUBST(ENABLE_OWPHP)
-AM_CONDITIONAL(PHP7, test "${PHPVMAJOR}" = "7")
 AM_CONDITIONAL(ENABLE_OWPHP, test "${ENABLE_OWPHP}" = "true")
 if test -z "$PHP" ; then
 	ENABLE_PHP="false"

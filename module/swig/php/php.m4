@@ -19,14 +19,14 @@ if test x"${PHPBIN}" = xno -o x"${with_alllang}" = xno ; then
 else
 
 if test "x$PHPBIN" = xyes; then
-      AC_CHECK_PROGS(PHP, php php5 php4)
+      AC_CHECK_PROGS(PHP, php php7.4 php7.1 php5 php4)
 else
       PHP="$PHPBIN"
 fi
 
 if test "x$PHPCONFIGBIN" = xyes; then
       AC_CHECK_PROGS(PHPCONFIG,
-	php-config php5-config php-config5 php4-config php-config4)
+	php-config php-config7.4 php-config7.1 php5-config php-config5 php4-config php-config4)
 else
       PHPCONFIG="$PHPCONFIGBIN"
 fi
